@@ -2,6 +2,12 @@ project.configureLibrary(this)
 
 android.defaultConfig.consumerProguardFiles "proguard-rules.pro"
 
+android {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+    }
+}
+
 dependencies {
     api deps.androidx.activity
     api deps.androidx.fragment
