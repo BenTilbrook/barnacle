@@ -6,3 +6,4 @@
 -dontwarn java.lang.invoke.**
 -dontwarn org.conscrypt.**
 -dontwarn com.google.errorprone.annotations.**
+-keep @kotlinx.android.parcel.Parcelize class * { *; }
