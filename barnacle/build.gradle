@@ -5,7 +5,7 @@ android.defaultConfig.consumerProguardFiles "proguard-rules.pro"
 dependencies {
     api deps.androidx.activity
     api deps.androidx.fragment
-    api deps.androidx.annotations
+    api deps.androidx.annotation
     api deps.kotlin.stdlib
     testImplementation deps.androidx.test.core
 }

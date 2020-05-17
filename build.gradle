@@ -31,7 +31,7 @@ ext.configureLibrary = { project ->
     apply plugin: "kotlin-kapt"
 
     android {
-        compileSdkVersion buildConfig.compileSdkVersion
+        compileSdkVersion buildConfig.compileSdk
         testOptions.unitTests.includeAndroidResources = true
         defaultConfig {
             minSdkVersion buildConfig.minSdkVersion

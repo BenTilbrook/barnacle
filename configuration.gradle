@@ -28,7 +28,7 @@ ext.deps = [
     ],
     "androidx": [
         "core": "androidx.core:core-ktx:1.1.0",
-        "annotations": "androidx.annotations:annotations:1.1.0",
+        "annotation": "androidx.annotation:annotation:1.1.0",
         "activity": "androidx.activity:activity-ktx:1.1.0",
         "fragment": "androidx.fragment:fragment-ktx:1.2.4",
         "appcompat": "androidx.appcompat:appcompat:1.1.0",
