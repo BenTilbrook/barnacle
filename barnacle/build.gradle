@@ -7,5 +7,7 @@ dependencies {
     api deps.androidx.fragment
     api deps.androidx.annotation
     api deps.kotlin.stdlib
+    api deps.kotlin.coroutines.core
+    api deps.kotlin.coroutines.android
     testImplementation deps.androidx.test.core
 }
