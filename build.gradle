@@ -1,0 +1,55 @@
+buildscript {
+    apply from: "configuration.gradle"
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        //noinspection GradleDependency
+        classpath "com.android.tools.build:gradle:$versions.agp"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$versions.detekt"
+    }
+}
+
+apply from: "configuration.gradle"
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+    group = GROUP
+    version = VERSION_NAME
+}
+
+ext.configureLibrary = { project ->
+    delegate = project
+
+    apply plugin: "com.android.library"
+    apply plugin: "kotlin-android"
+    apply plugin: "kotlin-kapt"
+
+    android {
+        compileSdkVersion buildConfig.compileSdkVersion
+        testOptions.unitTests.includeAndroidResources = true
+        defaultConfig {
+            minSdkVersion buildConfig.minSdkVersion
+            javaCompileOptions.annotationProcessorOptions.includeCompileClasspath false
+        }
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+        lintOptions {
+            lintConfig rootProject.file("lint.xml")
+            abortOnError false
+        }
+    }
+
+    // apply plugin: "com.github.dcendents.android-maven"
+    // apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
+}

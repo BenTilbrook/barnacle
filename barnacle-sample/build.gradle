@@ -1,0 +1,81 @@
+plugins {
+}
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+
+apply from: "../configuration.gradle"
+
+android {
+    defaultConfig {
+        applicationId "com.github.bentilbrook.barnacle.sample"
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionName "1.0.0"
+        versionCode 1
+        vectorDrawables.useSupportLibrary = true
+        proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    lintOptions {
+        lintConfig rootProject.file("lint.xml")
+        abortOnError false
+    }
+    buildTypes {
+//        debug {
+//            applicationIdSuffix ".debug"
+//            signingConfig signingConfigs.debug
+//            ext.enableCrashlytics = false
+//            ext.alwaysUpdateBuildId = false
+//        }
+        release {
+//            applicationIdSuffix getStringProperty("applicationIdSuffix", "")
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
+}
+
+dependencies {
+    implementation project(":barnacle")
+
+    // Dagger 2
+    api "com.google.dagger:dagger:$versions.dagger"
+    api "com.google.dagger:dagger-android:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+    kaptTest "com.google.dagger:dagger-compiler:$versions.dagger"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$versions.dagger"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$versions.moshi"
+
+    // Kotlin
+    api deps.kotlin.stdlib
+
+    // AndroidX
+    implementation deps.androidx.activity
+    implementation deps.androidx.fragment
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.vectordrawable
+    implementation deps.androidx.transition
+
+    // Leak Canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"
+
+    // FindBugs
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+}
+
+kapt {
+    correctErrorTypes = true
+}

@@ -1,0 +1,3 @@
+rootProject.name = "barnacle-root"
+include ":barnacle"
+include ":barnacle-sample"

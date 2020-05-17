@@ -1,0 +1,8 @@
+-dontobfuscate
+-dontwarn java.awt.**
+-dontwarn java.nio.file.**
+-dontwarn com.google.common.**
+-dontwarn org.codehaus.mojo.animal_sniffer.**
+-dontwarn java.lang.invoke.**
+-dontwarn org.conscrypt.**
+-dontwarn com.google.errorprone.annotations.**
