@@ -34,8 +34,7 @@ ext.configureLibrary = { project ->
         compileSdkVersion buildConfig.compileSdk
         testOptions.unitTests.includeAndroidResources = true
         defaultConfig {
-            minSdkVersion buildConfig.minSdkVersion
-            javaCompileOptions.annotationProcessorOptions.includeCompileClasspath false
+            minSdkVersion buildConfig.minSdk
         }
         compileOptions {
             sourceCompatibility 1.8
