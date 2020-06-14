@@ -9,7 +9,7 @@ ext.versions = [
     "kotlinCoroutines": "1.3.7",
     "dagger": "2.27",
     "assistedInject": "0.5.2",
-    "okHttp": "4.6.0",
+    "okHttp": "4.7.2",
     "retrofit": "2.8.1",
     "moshi": "1.9.2",
     "junit": "4.12",
