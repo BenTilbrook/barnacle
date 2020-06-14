@@ -5,13 +5,17 @@ import kotlinx.coroutines.flow.StateFlow
 
 class Store<S>(
     initialState: S,
-    private val reduce: (S, Action) -> S
+    private val reducer: Reducer<S, Action>,
+    middleware: Middleware<S> = emptyMiddleware()
 ) {
     private val state = MutableStateFlow(initialState)
+    private val dispatcher = middleware(this)(::dispatchCore)
 
     fun state(): StateFlow<S> = state
 
-    fun dispatch(action: Action) {
-        state.value = reduce(state.value, action)
+    fun dispatch(action: Action) = dispatcher(action)
+
+    private fun dispatchCore(action: Action) {
+        state.value = reducer(state.value, action)
     }
 }

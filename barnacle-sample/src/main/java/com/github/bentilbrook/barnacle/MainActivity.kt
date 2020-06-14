@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
             initialState = lastNonConfigurationInstance as AppState?
                 ?: savedInstanceState?.getParcelable(KEY_APP_STATE)
                 ?: AppState(),
-            reduce = ::rootReducer
+            reducer = ::rootReducer
         )
     }
 
