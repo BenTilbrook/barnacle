@@ -12,7 +12,7 @@ ext.versions = [
     "okHttp": "4.7.2",
     "retrofit": "2.8.1",
     "moshi": "1.9.2",
-    "junit": "4.12",
+    "junit": "4.13",
     "kluent": "1.61",
     "robolectric": "4.3.1",
     "timber": "5.0.0-SNAPSHOT",
