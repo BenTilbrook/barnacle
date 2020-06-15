@@ -1,7 +1,6 @@
 package com.github.bentilbrook.barnacle
 
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -13,7 +12,7 @@ class EpicMiddleware<S>(private val epics: List<Epic<Action, S>>) : Middleware<S
 
     constructor(vararg epics: Epic<Action, S>) : this(epics.toList())
 
-    private val channel = BroadcastChannel<Action>(Channel.UNLIMITED)
+    private val channel = BroadcastChannel<Action>(100)
     private lateinit var store: Store<S>
 
     override fun invoke(store: Store<S>): (next: Dispatcher) -> Dispatcher {
