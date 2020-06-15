@@ -11,6 +11,8 @@ typealias Epic<A, S> = (actions: Flow<A>, state: Flow<S>) -> Flow<A>
 
 class EpicMiddleware<S>(private val epics: List<Epic<Action, S>>) : Middleware<S> {
 
+    constructor(vararg epics: Epic<Action, S>) : this(epics.toList())
+
     private val channel = BroadcastChannel<Action>(Channel.UNLIMITED)
     private lateinit var store: Store<S>
 
