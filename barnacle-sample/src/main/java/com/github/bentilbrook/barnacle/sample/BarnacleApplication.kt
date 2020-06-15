@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package com.github.bentilbrook.barnacle.sample
 
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication

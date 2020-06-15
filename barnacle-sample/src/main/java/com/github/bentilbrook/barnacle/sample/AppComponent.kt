@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package com.github.bentilbrook.barnacle.sample
 
 import android.app.Application
 import android.content.Context
@@ -22,8 +22,7 @@ internal interface AppComponent : AndroidInjector<BarnacleApplication> {
     }
 
     companion object {
-        internal fun create(context: Context): AppComponent = DaggerAppComponent
-            .factory()
+        internal fun create(context: Context): AppComponent = DaggerAppComponent.factory()
             .create(context.applicationContext as Application)
     }
 }

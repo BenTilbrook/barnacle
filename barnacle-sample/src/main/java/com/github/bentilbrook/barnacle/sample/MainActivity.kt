@@ -1,7 +1,10 @@
-package com.github.bentilbrook.barnacle
+package com.github.bentilbrook.barnacle.sample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.bentilbrook.barnacle.EpicMiddleware
+import com.github.bentilbrook.barnacle.Store
+import com.github.bentilbrook.barnacle.composeMiddleware
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,8 +16,10 @@ class MainActivity : AppCompatActivity() {
             initialState = lastNonConfigurationInstance as AppState?
                 ?: savedInstanceState?.getParcelable(KEY_APP_STATE)
                 ?: AppState(),
-            reducer = ::rootReducer
+            reducer = ::rootReducer,
+            middleware = composeMiddleware(EpicMiddleware(::rootEpic))
         )
+        MainComponent(store.state())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
