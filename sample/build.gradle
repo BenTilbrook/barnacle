@@ -32,14 +32,7 @@ android {
         abortOnError false
     }
     buildTypes {
-//        debug {
-//            applicationIdSuffix ".debug"
-//            signingConfig signingConfigs.debug
-//            ext.enableCrashlytics = false
-//            ext.alwaysUpdateBuildId = false
-//        }
         release {
-//            applicationIdSuffix getStringProperty("applicationIdSuffix", "")
             minifyEnabled true
             shrinkResources true
         }
@@ -47,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation project(":barnacle")
+    implementation project(":library")
 
     // Dagger 2
     api "com.google.dagger:dagger:$versions.dagger"
