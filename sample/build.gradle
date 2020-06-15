@@ -38,6 +38,9 @@ android {
             shrinkResources true
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
