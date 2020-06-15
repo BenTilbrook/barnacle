@@ -2,6 +2,7 @@
   <dictionary name="bentilbrook">
     <words>
       <w>bentilbrook</w>
+      <w>constraintlayout</w>
       <w>coroutines</w>
       <w>middlewares</w>
       <w>moshi</w>
