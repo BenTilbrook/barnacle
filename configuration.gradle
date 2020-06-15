@@ -20,6 +20,9 @@ ext.versions = [
     "androidx": [
         "lifecycle": "2.2.0",
         "test": "1.2.0",
+    ],
+    "google": [
+        "material": "1.1.0"
     ]
 ]
 ext.deps = [
@@ -57,7 +60,7 @@ ext.deps = [
     ],
     "kluent": "org.amshove.kluent:kluent-android:$versions.kluent",
     "google": [
-        "material": "com.google.android.material:material:1.1.0"
+        "material": "com.google.android.material:material:$versions.google.material"
     ],
     "okhttp": "com.squareup.okhttp3:okhttp:$versions.okHttp",
 ]

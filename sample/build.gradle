@@ -69,6 +69,9 @@ dependencies {
     implementation deps.androidx.recyclerview
     implementation deps.androidx.vectordrawable
     implementation deps.androidx.transition
+    
+    // Google Material Components
+    implementation deps.google.material
 
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"

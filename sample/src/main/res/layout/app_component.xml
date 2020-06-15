@@ -10,20 +10,26 @@
     <!-- Content -->
 
     <com.github.bentilbrook.barnacle.sample.WindowInsetsFrameLayout
-        android:id="@+id/contentFragmentLayout"
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomFragmentLayout" />
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
 
     <!-- Bottom -->
 
-    <com.github.bentilbrook.barnacle.sample.WindowInsetsFrameLayout
-        android:id="@+id/bottomFragmentLayout"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:elevation="8dp"
+        app:menu="@menu/bottom_nav" />
 
 </merge>

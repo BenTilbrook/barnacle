@@ -12,18 +12,21 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    //    private val viewModel by viewModels<MainViewModel>()
     private lateinit var store: Store<AppState>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        @Suppress("DEPRECATION")
         store = Store(
-            initialState = lastNonConfigurationInstance as AppState?
+            initialState = lastCustomNonConfigurationInstance as AppState?
                 ?: savedInstanceState?.getParcelable(KEY_APP_STATE)
                 ?: AppState(),
-            reducer = ::rootReducer,
-            middleware = composeMiddleware(EpicMiddleware(::rootEpic))
+            reducer = ::appReducer,
+            middleware = composeMiddleware(EpicMiddleware(::appEpic))
         )
+//        val store = viewModel.store
 
         val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -43,5 +46,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRetainCustomNonConfigurationInstance() = store.state().value
 }
+
+//class MainViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+//    val store = Store(
+//        initialState = savedStateHandle.get(KEY_APP_STATE) ?: AppState(),
+//        reducer = ::rootReducer,
+//        middleware = composeMiddleware(EpicMiddleware(::rootEpic))
+//    )
+//}
 
 private const val KEY_APP_STATE = "appState"
