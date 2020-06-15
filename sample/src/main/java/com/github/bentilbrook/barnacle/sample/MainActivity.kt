@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.bentilbrook.barnacle.EpicMiddleware
 import com.github.bentilbrook.barnacle.Store
 import com.github.bentilbrook.barnacle.composeMiddleware
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var store: Store<AppState>

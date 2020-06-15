@@ -8,6 +8,7 @@ buildscript {
         //noinspection GradleDependency
         classpath "com.android.tools.build:gradle:$versions.agp"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$versions.hilt"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$versions.detekt"
     }
 }

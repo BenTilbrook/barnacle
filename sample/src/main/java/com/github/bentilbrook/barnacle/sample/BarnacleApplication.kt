@@ -1,9 +1,7 @@
 package com.github.bentilbrook.barnacle.sample
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class BarnacleApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<BarnacleApplication> =
-        AppComponent.create(this)
-}
+@HiltAndroidApp
+class BarnacleApplication : Application()
