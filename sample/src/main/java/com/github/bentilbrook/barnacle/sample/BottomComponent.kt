@@ -30,4 +30,11 @@ fun BottomComponent(
 @Parcelize
 data class BottomState(val selectedItemId: Int = R.id.settings) : Parcelable
 
-data class BottomNavigationItemSelectedAction(val id: Int) : Action
+sealed class BottomAction : Action
+
+data class BottomNavigationItemSelectedAction(val id: Int) : BottomAction()
+
+fun bottomReducer(state: BottomState, action: BottomAction): BottomState =
+    when (action) {
+        is BottomNavigationItemSelectedAction -> state.copy(selectedItemId = action.id)
+    }
