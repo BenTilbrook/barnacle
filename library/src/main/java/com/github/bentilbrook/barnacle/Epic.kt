@@ -28,6 +28,6 @@ class EpicMiddleware<S>(private val epics: List<Epic<Action, S>>) : Middleware<S
     suspend fun run() {
         val inputActions = channel.asFlow()
         val outputActionFlows = epics.map { it(inputActions, store.state()) }
-        outputActionFlows.merge().collect { channel.offer(it) }
+        outputActionFlows.merge().collect { store.dispatch(it) }
     }
 }
