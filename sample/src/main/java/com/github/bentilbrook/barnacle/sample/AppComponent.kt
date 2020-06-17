@@ -33,9 +33,11 @@ data class AppState(
     val bottomState: BottomState = BottomState()
 ) : Parcelable
 
-fun appReducer(state: AppState, action: Action): AppState {
-    return state
-}
+fun appReducer(state: AppState, action: Action): AppState =
+    when (action) {
+        is BottomAction -> state.copy(bottomState = bottomReducer(state.bottomState, action))
+        else -> state
+    }
 
 fun appEpic(actions: Flow<Action>, state: Flow<AppState>): Flow<Action> = merge(
 )
