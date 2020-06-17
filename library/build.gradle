@@ -16,7 +16,8 @@ dependencies {
     api deps.kotlin.stdlib
     api deps.kotlin.coroutines.core
     api deps.kotlin.coroutines.android
-    testImplementation "junit:junit:$versions.junit"
+    testImplementation deps.junit
+    testImplementation deps.robolectric
     testImplementation deps.androidx.test.core
     testImplementation deps.kluent
 }

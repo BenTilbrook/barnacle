@@ -41,6 +41,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -76,8 +81,16 @@ dependencies {
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"
 
-    // FindBugs
-    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    // Testing
+    implementation project(":sample:testing")
+    testImplementation deps.junit
+    testImplementation deps.robolectric
+    testImplementation deps.kluent
+    testImplementation deps.kotlin.coroutines.test
+    testImplementation deps.androidx.test.core
+    testImplementation deps.androidx.test.runner
+    testImplementation deps.androidx.test.rules
+    testImplementation deps.androidx.test.ext.junit
 }
 
 kapt {

@@ -12,14 +12,15 @@ ext.versions = [
     "okHttp": "4.7.2",
     "retrofit": "2.8.1",
     "moshi": "1.9.2",
-    "junit": "4.13",
+    "junit": "4.12",
     "kluent": "1.61",
-    "robolectric": "4.3.1",
+    "robolectric": "4.4-SNAPSHOT",
     "timber": "5.0.0-SNAPSHOT",
     "detekt": "1.9.0",
     "androidx": [
         "lifecycle": "2.2.0",
         "test": "1.2.0",
+        "testExt": "1.1.1",
     ],
     "google": [
         "material": "1.1.0"
@@ -32,6 +33,7 @@ ext.deps = [
         "coroutines": [
             "core": "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlinCoroutines",
             "android": "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.kotlinCoroutines",
+            "test": "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.kotlinCoroutines",
         ]
     ],
     "androidx": [
@@ -53,9 +55,12 @@ ext.deps = [
             "process": "androidx.lifecycle:lifecycle-process:$versions.androidx.lifecycle",
         ],
         "test": [
-            "core": "androidx.test:core:$versions.androidx.test",
+            "core": "androidx.test:core-ktx:$versions.androidx.test",
             "runner": "androidx.test:runner:$versions.androidx.test",
             "rules": "androidx.test:rules:$versions.androidx.test",
+            "ext": [
+                "junit": "androidx.test.ext:junit-ktx:$versions.androidx.testExt",
+            ]
         ]
     ],
     "kluent": "org.amshove.kluent:kluent-android:$versions.kluent",
@@ -63,4 +68,6 @@ ext.deps = [
         "material": "com.google.android.material:material:$versions.google.material"
     ],
     "okhttp": "com.squareup.okhttp3:okhttp:$versions.okHttp",
+    "junit": "junit:junit:$versions.junit",
+    "robolectric": "org.robolectric:robolectric:$versions.robolectric"
 ]
