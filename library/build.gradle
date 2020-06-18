@@ -4,13 +4,6 @@ project.configureModule(this)
 
 android.defaultConfig.consumerProguardFiles "proguard-rules.pro"
 
-android {
-    kotlinOptions {
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
-    }
-}
-
 dependencies {
     api deps.androidx.activity
     api deps.androidx.fragment

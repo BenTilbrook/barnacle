@@ -28,10 +28,10 @@ fun BottomComponent(
 }
 
 @Parcelize
-data class BottomState(val selectedItemId: Int = R.id.settings) : Parcelable
+data class BottomState(val selectedItemId: Int = R.id.browse) : Parcelable
 
 sealed class BottomAction : Action {
-    data class ItemSelected(val id: Int) : BottomAction()
+    internal data class ItemSelected(val id: Int) : BottomAction()
 }
 
 fun bottomReducer(state: BottomState, action: BottomAction): BottomState =

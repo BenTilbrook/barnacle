@@ -8,12 +8,15 @@ import com.github.bentilbrook.barnacle.Store
 import com.github.bentilbrook.barnacle.composeMiddleware
 import com.github.bentilbrook.barnacle.sample.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     //    private val viewModel by viewModels<MainViewModel>()
     private lateinit var store: Store<AppState>
+
+    @Inject lateinit var appEpic: AppEpic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 ?: savedInstanceState?.getParcelable(KEY_APP_STATE)
                 ?: AppState(),
             reducer = ::appReducer,
-            middleware = composeMiddleware(EpicMiddleware(::appEpic))
+            middleware = composeMiddleware(EpicMiddleware(appEpic))
         )
 //        val store = viewModel.store
 

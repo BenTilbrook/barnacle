@@ -1,15 +1,14 @@
 apply plugin: "com.android.library"
 
 project.configureModule(this)
+project.configureHilt(this)
 
 dependencies {
     api deps.kotlin.stdlib
     api deps.kotlin.coroutines.core
     implementation "com.squareup.moshi:moshi:$versions.moshi"
-    implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
-    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    api "com.squareup.okhttp3:okhttp:$versions.okHttp"
+    api "com.squareup.retrofit2:retrofit:$versions.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
-    implementation "com.jakewharton.threetenabp:threetenabp:1.1.2"
-    implementation "com.google.dagger:dagger:$versions.dagger"
-    implementation "com.google.dagger:hilt-android:$versions.hilt"
+    api "com.jakewharton.threetenabp:threetenabp:1.1.2"
 }

@@ -1,6 +1,7 @@
 apply plugin: "com.android.library"
 
 project.configureModule(this)
+project.configureHilt(this)
 
 dependencies {
     implementation deps.google.material

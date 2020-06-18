@@ -2,7 +2,6 @@ package com.github.bentilbrook.barnacle.sample.repolist
 
 import android.net.Uri
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,21 +10,31 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.github.bentilbrook.barnacle.Action
 import com.github.bentilbrook.barnacle.Dispatcher
+import com.github.bentilbrook.barnacle.Epic
+import com.github.bentilbrook.barnacle.sample.backend.Api
 import com.github.bentilbrook.barnacle.sample.backend.Repo
 import com.github.bentilbrook.barnacle.sample.core.layoutInflater
 import com.github.bentilbrook.barnacle.sample.repolist.databinding.RepoListComponentBinding
 import com.github.bentilbrook.barnacle.sample.repolist.databinding.RepoListComponentRepoItemBinding
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.transformLatest
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 fun RepoListComponent(
     state: Flow<RepoListState>,
     dispatch: Dispatcher,
-    parent: ConstraintLayout,
+    parent: ViewGroup,
     scope: CoroutineScope
 ) {
     val binding = RepoListComponentBinding.inflate(parent.layoutInflater(), parent, true)
@@ -45,6 +54,8 @@ fun RepoListComponent(
     // Repos
     val adapter = RepoAdapter(dispatch)
     state.map { it.repos }
+        .distinctUntilChanged()
+        .flowOn(Dispatchers.Default)
         .map { repos -> repos.map { it.toItem() } }
         .onEach { adapter.submitList(it) }
         .launchIn(scope)
@@ -52,9 +63,12 @@ fun RepoListComponent(
 }
 
 sealed class RepoListAction : Action {
-    object Reload : RepoListAction()
-    object Logout : RepoListAction()
-    data class RepoClick(val owner: String, val name: String) : RepoListAction()
+    internal object Reload : RepoListAction()
+    internal object Logout : RepoListAction()
+    internal object ReposLoading : RepoListAction()
+    internal data class ReposLoaded(val repos: List<Repo>) : RepoListAction()
+    internal data class RepoLoadFailed(val exception: Throwable) : RepoListAction()
+    internal data class RepoClick(val owner: String, val name: String) : RepoListAction()
 }
 
 internal data class RepoItem(
@@ -118,19 +132,50 @@ internal class RepoAdapter(private val dispatch: Dispatcher) :
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: RepoItem, newItem: RepoItem) =
-                oldItem.text == newItem.text
+                oldItem.text == newItem.text && oldItem.imageUri == newItem.imageUri
         }
     }
 }
 
 fun repoListReducer(state: RepoListState, action: RepoListAction): RepoListState =
     when (action) {
-        is RepoListAction.Reload -> TODO()
+        is RepoListAction.Reload -> state
         is RepoListAction.Logout -> TODO()
+        is RepoListAction.ReposLoading ->
+            state.copy(isLoading = true, errorMessage = null)
+        is RepoListAction.ReposLoaded ->
+            state.copy(isLoading = false, errorMessage = null, repos = action.repos)
+        is RepoListAction.RepoLoadFailed ->
+            state.copy(isLoading = false, errorMessage = action.exception.toString())
         is RepoListAction.RepoClick -> TODO()
     }
 
-fun repoListEpic(actions: Flow<RepoListAction>, state: Flow<RepoListState>): Flow<RepoListAction> {
-    // TODO
-    return emptyFlow()
+class RepoListEpic @Inject constructor(private val api: Api) : Epic<RepoListAction, RepoListState> {
+    override fun invoke(
+        actions: Flow<RepoListAction>,
+        state: Flow<RepoListState>
+    ): Flow<RepoListAction> = merge(
+        dataEpic(actions, state)
+    )
+
+    private fun dataEpic(
+        actions: Flow<RepoListAction>,
+        state: Flow<RepoListState>
+    ): Flow<RepoListAction> = actions
+        .filterIsInstance<RepoListAction.Reload>()
+        .onStart { emit(RepoListAction.Reload) }
+        .transformLatest {
+            try {
+                emit(RepoListAction.ReposLoading)
+                val result = api.search()
+                val repos = withContext(Dispatchers.Default) {
+                    result.repos.sortedByDescending(Repo::starCount)
+                }
+                emit(RepoListAction.ReposLoaded(repos))
+            } catch (e: Exception) {
+                // TODO: What about cancellation?
+                RepoListAction.RepoLoadFailed(e)
+            }
+        }
+
 }

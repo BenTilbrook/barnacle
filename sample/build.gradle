@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation project(":library")
     implementation project(":sample:core")
+    implementation project(":sample:repolist")
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt"
