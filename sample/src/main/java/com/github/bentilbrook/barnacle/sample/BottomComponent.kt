@@ -19,7 +19,7 @@ fun BottomComponent(
     scope: CoroutineScope
 ) {
     bottomNavigationView.setOnNavigationItemSelectedListener {
-        dispatch(BottomNavigationItemSelectedAction(it.itemId)); true
+        dispatch(BottomAction.ItemSelected(it.itemId)); true
     }
     state.map { it.selectedItemId }
         .distinctUntilChanged()
@@ -30,11 +30,11 @@ fun BottomComponent(
 @Parcelize
 data class BottomState(val selectedItemId: Int = R.id.settings) : Parcelable
 
-sealed class BottomAction : Action
-
-data class BottomNavigationItemSelectedAction(val id: Int) : BottomAction()
+sealed class BottomAction : Action {
+    data class ItemSelected(val id: Int) : BottomAction()
+}
 
 fun bottomReducer(state: BottomState, action: BottomAction): BottomState =
     when (action) {
-        is BottomNavigationItemSelectedAction -> state.copy(selectedItemId = action.id)
+        is BottomAction.ItemSelected -> state.copy(selectedItemId = action.id)
     }

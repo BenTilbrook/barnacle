@@ -9,7 +9,7 @@ class BottomReducerTest {
     @Test fun `when nav item selected dispatched, should select the item`() {
         bottomReducer(
             BottomState(selectedItemId = R.id.settings),
-            BottomNavigationItemSelectedAction(R.id.browse)
+            NavigationItemSelected(R.id.browse)
         ).selectedItemId shouldBeEqualTo R.id.browse
     }
 }

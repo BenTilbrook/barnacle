@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.bentilbrook.barnacle.Action
 import com.github.bentilbrook.barnacle.Dispatcher
-import com.github.bentilbrook.barnacle.core.layoutInflater
+import com.github.bentilbrook.barnacle.sample.core.layoutInflater
 import com.github.bentilbrook.barnacle.sample.databinding.AppComponentBinding
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,6 @@
-project.configureLibrary(this)
+apply plugin: "com.android.library"
+
+project.configureModule(this)
 
 android.defaultConfig.consumerProguardFiles "proguard-rules.pro"
 

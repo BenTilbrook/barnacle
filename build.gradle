@@ -25,11 +25,11 @@ allprojects {
     version = VERSION_NAME
 }
 
-ext.configureLibrary = { project ->
+ext.configureModule = { project ->
     delegate = project
 
-    apply plugin: "com.android.library"
     apply plugin: "kotlin-android"
+    apply plugin: "kotlin-android-extensions"
     apply plugin: "kotlin-kapt"
 
     android {

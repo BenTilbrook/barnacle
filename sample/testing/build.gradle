@@ -1,4 +1,6 @@
-project.configureLibrary(this)
+apply plugin: "com.android.library"
+
+project.configureModule(this)
 
 dependencies {
     api deps.androidx.activity

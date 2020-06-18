@@ -1,13 +1,11 @@
-project.configureLibrary(this)
+apply plugin: "com.android.library"
+
+project.configureModule(this)
 
 dependencies {
-    api deps.androidx.activity
-    api deps.androidx.fragment
-    api deps.androidx.annotation
-    api deps.kotlin.stdlib
-    api deps.kotlin.coroutines.core
-    api deps.kotlin.coroutines.android
-    testImplementation "junit:junit:$versions.junit"
-    testImplementation deps.androidx.test.core
-    testImplementation deps.kluent
+    implementation deps.google.material
+
+    def glideVersion = "4.9.0"
+    api "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
 }

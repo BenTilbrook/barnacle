@@ -1,0 +1,17 @@
+apply plugin: "com.android.library"
+
+project.configureModule(this)
+
+android.buildFeatures.viewBinding true
+
+dependencies {
+    api project(":library")
+    api project(":sample:backend")
+    api project(":sample:core")
+    api deps.kotlin.stdlib
+    api deps.kotlin.coroutines.core
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.google.material
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+}

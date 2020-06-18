@@ -28,7 +28,7 @@ class BottomComponentTest : BaseTest() {
                 )
                 val selectedId = R.id.settings
                 view.selectedItemId = selectedId
-                dispatcher.actions shouldContain BottomNavigationItemSelectedAction(id = selectedId)
+                dispatcher.actions shouldContain NavigationItemSelected(id = selectedId)
             }
         }
     }

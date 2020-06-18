@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.core
+package com.github.bentilbrook.barnacle.sample.core
 
 import android.view.LayoutInflater
 import android.view.View
