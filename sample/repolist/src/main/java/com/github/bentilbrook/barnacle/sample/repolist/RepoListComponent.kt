@@ -11,11 +11,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.github.bentilbrook.barnacle.Action
 import com.github.bentilbrook.barnacle.Dispatcher
 import com.github.bentilbrook.barnacle.Epic
+import com.github.bentilbrook.barnacle.Module
 import com.github.bentilbrook.barnacle.sample.backend.Api
 import com.github.bentilbrook.barnacle.sample.backend.Repo
 import com.github.bentilbrook.barnacle.sample.core.layoutInflater
 import com.github.bentilbrook.barnacle.sample.repolist.databinding.RepoListComponentBinding
 import com.github.bentilbrook.barnacle.sample.repolist.databinding.RepoListComponentRepoItemBinding
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -150,7 +152,7 @@ fun repoListReducer(state: RepoListState, action: RepoListAction): RepoListState
         is RepoListAction.RepoClick -> TODO()
     }
 
-class RepoListEpic @Inject constructor(private val api: Api) : Epic<RepoListAction, RepoListState> {
+class RepoListEpic @Inject constructor(private val api: Api) : Epic<RepoListState, RepoListAction> {
     override fun invoke(
         actions: Flow<RepoListAction>,
         state: Flow<RepoListState>
@@ -172,10 +174,18 @@ class RepoListEpic @Inject constructor(private val api: Api) : Epic<RepoListActi
                     result.repos.sortedByDescending(Repo::starCount)
                 }
                 emit(RepoListAction.ReposLoaded(repos))
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                // TODO: What about cancellation?
                 RepoListAction.RepoLoadFailed(e)
             }
         }
 
 }
+
+class RepoListModule @Inject constructor(repoListEpic: RepoListEpic) :
+    Module<RepoListState, RepoListState, RepoListAction>(
+        selector = { it },
+        reducer = ::repoListReducer,
+        epic = repoListEpic
+    )

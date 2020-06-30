@@ -4,13 +4,16 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.merge
 
-typealias Epic<A, S> = (actions: Flow<A>, state: Flow<S>) -> Flow<A>
+typealias Epic<A, S> = (actions: Flow<S>, state: Flow<A>) -> Flow<S>
 
-class EpicMiddleware<S>(private val epics: List<Epic<Action, S>>) : Middleware<S> {
+fun <A, S> emptyEpic(): Epic<A, S> = { _: Flow<S>, _: Flow<A> -> emptyFlow() }
 
-    constructor(vararg epics: Epic<Action, S>) : this(epics.toList())
+class EpicMiddleware<S>(private val epics: List<Epic<S, Action>>) : Middleware<S> {
+
+    constructor(vararg epics: Epic<S, Action>) : this(epics.toList())
 
     private val channel = BroadcastChannel<Action>(100)
     private lateinit var store: Store<S>

@@ -5,13 +5,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.bentilbrook.barnacle.Action
 import com.github.bentilbrook.barnacle.Dispatcher
 import com.github.bentilbrook.barnacle.Epic
+import com.github.bentilbrook.barnacle.Module
 import com.github.bentilbrook.barnacle.sample.core.layoutInflater
 import com.github.bentilbrook.barnacle.sample.databinding.AppComponentBinding
-import com.github.bentilbrook.barnacle.sample.repolist.RepoListEpic
+import com.github.bentilbrook.barnacle.sample.repolist.RepoListModule
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -44,10 +44,17 @@ fun appReducer(state: AppState, action: Action): AppState =
         else -> state
     }
 
-class AppEpic @Inject constructor(private val repoListEpic: RepoListEpic) : Epic<Action, AppState> {
+class AppEpic @Inject constructor(private val repoListModule: RepoListModule) :
+    Epic<AppState, Action> {
+
     override fun invoke(actions: Flow<Action>, state: Flow<AppState>): Flow<Action> {
         return merge(
-            repoListEpic(actions.filterIsInstance(), emptyFlow()) // TODO
+            repoListModule.epic(
+                actions.filterIsInstance(),
+                state.map { /*repoListModule.selector(it)*/TODO() })
         )
     }
 }
+
+class AppModule @Inject constructor(appEpic: AppEpic) :
+    Module<AppState, AppState, Action>({ state -> state }, ::appReducer, appEpic)

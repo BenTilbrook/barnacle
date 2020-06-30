@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     //    private val viewModel by viewModels<MainViewModel>()
     private lateinit var store: Store<AppState>
 
-    @Inject lateinit var appEpic: AppEpic
+    @Inject lateinit var appModule: AppModule
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             initialState = lastCustomNonConfigurationInstance as AppState?
                 ?: savedInstanceState?.getParcelable(KEY_APP_STATE)
                 ?: AppState(),
-            reducer = ::appReducer,
-            middleware = composeMiddleware(EpicMiddleware(appEpic))
+            reducer = appModule.reducer,
+            middleware = composeMiddleware(EpicMiddleware(appModule.epic))
         )
 //        val store = viewModel.store
 

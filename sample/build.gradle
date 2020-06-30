@@ -9,6 +9,8 @@ apply plugin: "dagger.hilt.android.plugin"
 
 apply from: "../configuration.gradle"
 
+project.configureHilt(this)
+
 android {
     defaultConfig {
         applicationId "com.github.bentilbrook.barnacle.sample"
@@ -54,14 +56,6 @@ dependencies {
     implementation project(":sample:core")
     implementation project(":sample:repolist")
 
-    // Hilt
-    implementation "com.google.dagger:hilt-android:$versions.hilt"
-    kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
-    androidTestImplementation  "com.google.dagger:hilt-android-testing:$versions.hilt"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$versions.hilt"
-    testImplementation "com.google.dagger:hilt-android-testing:$versions.hilt"
-    kaptTest "com.google.dagger:hilt-android-compiler:$versions.hilt"
-
     // Moshi
     implementation "com.squareup.moshi:moshi:$versions.moshi"
 
@@ -95,10 +89,3 @@ dependencies {
     testImplementation deps.androidx.test.ext.junit
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
-hilt {
-    enableTransformForLocalTests = true
-}
