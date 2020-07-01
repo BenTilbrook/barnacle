@@ -84,3 +84,100 @@ ext.configureHilt = { project ->
 //        enableTransformForLocalTests = true
 //    }
 }
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+apply plugin: "dagger.hilt.android.plugin"
+
+apply from: "configuration.gradle"
+
+project.configureHilt(this)
+
+android {
+    defaultConfig {
+        applicationId "com.github.bentilbrook.barnacle"
+        minSdkVersion buildConfig.minSdk
+        compileSdkVersion buildConfig.compileSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionName "1.0.0"
+        versionCode 1
+        vectorDrawables.useSupportLibrary = true
+        proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+    }
+    lintOptions {
+        lintConfig rootProject.file("lint.xml")
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+        }
+    }
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.compose
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation project(":core")
+    implementation project(":repolist")
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$versions.moshi"
+
+    // Kotlin
+    api deps.kotlin.stdlib
+    
+    // Compose
+    implementation "androidx.ui:ui-core:$versions.compose"
+    implementation "androidx.ui:ui-tooling:$versions.compose"
+    implementation "androidx.ui:ui-layout:$versions.compose"
+    implementation "androidx.ui:ui-material:$versions.compose"
+
+    // AndroidX
+    implementation deps.androidx.activity
+    implementation deps.androidx.fragment
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraintlayout
+    implementation deps.androidx.recyclerview
+    implementation deps.androidx.vectordrawable
+    implementation deps.androidx.transition
+
+    // Google Material Components
+    implementation deps.google.material
+
+    // Leak Canary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"
+
+    // Testing
+    implementation project(":testing")
+    testImplementation deps.junit
+    testImplementation deps.robolectric
+    testImplementation deps.kluent
+    testImplementation deps.kotlin.coroutines.test
+    testImplementation deps.androidx.test.core
+    testImplementation deps.androidx.test.runner
+    testImplementation deps.androidx.test.rules
+    testImplementation deps.androidx.test.ext.junit
+}
