@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.sample.repolist
+package com.github.bentilbrook.barnacle.repolist
 
 import android.net.Uri
 import com.github.bentilbrook.barnacle.sample.backend.Repo
