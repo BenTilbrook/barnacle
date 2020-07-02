@@ -1,1 +1,5 @@
-<manifest package="com.github.bentilbrook.barnacle.backend" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.bentilbrook.barnacle.backend">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

@@ -1,9 +1,6 @@
 package com.github.bentilbrook.barnacle
 
 import androidx.compose.Composable
-import androidx.compose.getValue
-import androidx.compose.setValue
-import androidx.compose.state
 import androidx.ui.foundation.Icon
 import androidx.ui.material.BottomNavigation
 import androidx.ui.material.BottomNavigationItem
@@ -12,20 +9,19 @@ import androidx.ui.material.icons.filled.Home
 import androidx.ui.material.icons.filled.Settings
 
 @Composable
-fun TabBar() {
-    var selectedItem by state { Tab.BROWSE }
+fun TabBar(selectedTab: Tab, onSelected: (Tab) -> Unit) {
     BottomNavigation {
         enumValues<Tab>().map { tab ->
             BottomNavigationItem(
                 icon = { Icon(tab.icon) },
-                selected = selectedItem == tab,
-                onSelected = { selectedItem = tab }
+                selected = selectedTab == tab,
+                onSelected = { onSelected(tab) }
             )
         }
     }
 }
 
-private enum class Tab { BROWSE, SETTINGS }
+enum class Tab { BROWSE, SETTINGS }
 
 private val Tab.icon
     get() = when (this) {

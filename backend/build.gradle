@@ -1,12 +1,11 @@
 apply plugin: "com.android.library"
 
-project.configureModule(this)
+project.configureBase(this)
 project.configureHilt(this)
 
 dependencies {
-    api deps.kotlin.stdlib
-    api deps.kotlin.coroutines.core
     implementation "com.squareup.moshi:moshi:$versions.moshi"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
     api "com.squareup.okhttp3:okhttp:$versions.okHttp"
     api "com.squareup.retrofit2:retrofit:$versions.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"

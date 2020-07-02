@@ -1,6 +1,5 @@
-package com.github.bentilbrook.barnacle.sample.backend
+package com.github.bentilbrook.barnacle.backend
 
-import android.net.Uri
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
@@ -8,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.threeten.bp.Instant
 import retrofit2.Retrofit
@@ -61,7 +61,7 @@ data class User(
     val followingCount: Int = 0,
 
     @Json(name = "avatar_url")
-    val imageUri: Uri? = null
+    val imageUri: HttpUrl? = null
 )
 
 @JsonClass(generateAdapter = true)

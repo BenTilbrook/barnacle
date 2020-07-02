@@ -25,7 +25,7 @@ allprojects {
     version = VERSION_NAME
 }
 
-ext.configureModule = { project ->
+ext.configureBase = { project ->
     delegate = project
 
     apply plugin: "kotlin-android"
@@ -34,7 +34,6 @@ ext.configureModule = { project ->
 
     android {
         compileSdkVersion buildConfig.compileSdk
-        testOptions.unitTests.includeAndroidResources = true
         defaultConfig {
             minSdkVersion buildConfig.minSdk
         }
@@ -51,8 +50,17 @@ ext.configureModule = { project ->
             lintConfig rootProject.file("lint.xml")
             abortOnError false
         }
+        testOptions {
+            unitTests {
+                includeAndroidResources = true
+            }
+        }
     }
 
+    dependencies {
+        api deps.kotlin.stdlib
+        api deps.kotlin.coroutines.core
+    }
     // apply plugin: "com.github.dcendents.android-maven"
     // apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
 }
@@ -85,56 +93,47 @@ ext.configureHilt = { project ->
 //    }
 }
 
+ext.configureCompose = { project ->
+    delegate = project
+    android {
+        buildFeatures {
+            compose true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion versions.compose
+        }
+    }
+    dependencies {
+        implementation "androidx.ui:ui-core:$versions.compose"
+        implementation "androidx.ui:ui-tooling:$versions.compose"
+        implementation "androidx.ui:ui-layout:$versions.compose"
+        implementation "androidx.ui:ui-material:$versions.compose"
+    }
+}
+
 apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
-apply plugin: "kotlin-kapt"
 apply plugin: "dagger.hilt.android.plugin"
 
 apply from: "configuration.gradle"
 
+project.configureBase(this)
 project.configureHilt(this)
+project.configureCompose(this)
 
 android {
     defaultConfig {
         applicationId "com.github.bentilbrook.barnacle"
         minSdkVersion buildConfig.minSdk
-        compileSdkVersion buildConfig.compileSdk
         targetSdkVersion buildConfig.targetSdk
         versionName "1.0.0"
         versionCode 1
         vectorDrawables.useSupportLibrary = true
         proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
-    }
-    lintOptions {
-        lintConfig rootProject.file("lint.xml")
-        abortOnError false
-    }
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-        }
-    }
-    buildFeatures {
-        viewBinding true
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion versions.compose
-    }
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
         }
     }
 }
@@ -145,15 +144,6 @@ dependencies {
 
     // Moshi
     implementation "com.squareup.moshi:moshi:$versions.moshi"
-
-    // Kotlin
-    api deps.kotlin.stdlib
-    
-    // Compose
-    implementation "androidx.ui:ui-core:$versions.compose"
-    implementation "androidx.ui:ui-tooling:$versions.compose"
-    implementation "androidx.ui:ui-layout:$versions.compose"
-    implementation "androidx.ui:ui-material:$versions.compose"
 
     // AndroidX
     implementation deps.androidx.activity

@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.sample.backend
+package com.github.bentilbrook.barnacle.backend
 
 import dagger.Module
 import dagger.Provides

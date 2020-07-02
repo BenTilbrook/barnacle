@@ -13,7 +13,7 @@ ext.versions = [
     "assistedInject": "0.5.2",
     "okHttp": "4.7.2",
     "retrofit": "2.8.1",
-    "moshi": "1.9.2",
+    "moshi": "1.9.3",
     "junit": "4.12",
     "kluent": "1.61",
     "robolectric": "4.4-SNAPSHOT",
