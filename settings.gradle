@@ -1,4 +1,5 @@
 rootProject.name = "barnacle"
+include ":redux"
 include ":core"
 include ":backend"
 include ":repolist"

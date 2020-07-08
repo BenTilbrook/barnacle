@@ -1,0 +1,8 @@
+apply plugin: "com.android.library"
+
+project.configureBase(this)
+project.configureHilt(this)
+project.configureCompose(this)
+
+dependencies {
+}
