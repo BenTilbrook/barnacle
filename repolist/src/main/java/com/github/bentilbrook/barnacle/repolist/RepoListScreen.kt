@@ -2,29 +2,39 @@ package com.github.bentilbrook.barnacle.repolist
 
 import androidx.compose.Composable
 import androidx.compose.collectAsState
+import androidx.ui.core.Modifier
 import androidx.ui.foundation.Text
+import androidx.ui.foundation.clickable
 import androidx.ui.foundation.lazy.LazyColumnItems
 import androidx.ui.material.Scaffold
 import androidx.ui.material.TopAppBar
 import androidx.ui.tooling.preview.Preview
 import com.github.bentilbrook.barnacle.backend.Repo
 import com.github.bentilbrook.barnacle.backend.User
+import com.github.bentilbrook.barnacle.core.Nav
+import com.github.bentilbrook.barnacle.repodetail.RepoDetailKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.HttpUrl
 
 @Composable
-fun RepoListScreen(repos: Flow<List<Repo>>) = Scaffold(
-    topBar = {
-        TopAppBar(title = { Text("Repos") })
-    },
-    bodyContent = {
-        RepoList(repos.collectAsState(initial = null).value)
-    }
-)
+fun RepoListScreen(repos: Flow<List<Repo>>) {
+    val nav = Nav.current
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Repos") })
+        },
+        bodyContent = {
+            RepoList(
+                repos = repos.collectAsState(initial = null).value,
+                onRepoClick = { id -> nav.push(RepoDetailKey(id)) }
+            )
+        }
+    )
+}
 
 @Composable
-private fun RepoList(repos: List<Repo>?) = when {
+private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) = when {
     repos == null -> {
         Text("Loading...")
     }
@@ -32,8 +42,18 @@ private fun RepoList(repos: List<Repo>?) = when {
         Text("No repos here")
     }
     else -> {
-        LazyColumnItems(items = repos) { repo -> Text(repo.fullName) }
+        LazyColumnItems(items = repos) { repo ->
+            RepoItem(
+                repo = repo,
+                onClick = { onRepoClick(repo.id) }
+            )
+        }
     }
+}
+
+@Composable
+private fun RepoItem(repo: Repo, onClick: () -> Unit) {
+    Text(text = repo.fullName, modifier = Modifier.clickable(onClick = onClick))
 }
 
 @Preview @Composable
