@@ -1,33 +1,31 @@
 package com.github.bentilbrook.barnacle.repolist
 
-import androidx.compose.Composable
-import androidx.compose.collectAsState
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.clickable
-import androidx.ui.foundation.lazy.LazyColumnItems
-import androidx.ui.material.Scaffold
-import androidx.ui.material.TopAppBar
-import androidx.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.github.bentilbrook.barnacle.backend.Repo
 import com.github.bentilbrook.barnacle.backend.User
-import com.github.bentilbrook.barnacle.core.Nav
-import com.github.bentilbrook.barnacle.repodetail.RepoDetailKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.HttpUrl
 
 @Composable
 fun RepoListScreen(repos: Flow<List<Repo>>) {
-    val nav = Nav.current
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Repos") })
         },
-        bodyContent = {
+        content = {
             RepoList(
                 repos = repos.collectAsState(initial = null).value,
-                onRepoClick = { id -> nav.push(RepoDetailKey(id)) }
+                onRepoClick = { TODO() }
             )
         }
     )
@@ -42,11 +40,13 @@ private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) = when {
         Text("No repos here")
     }
     else -> {
-        LazyColumnItems(items = repos) { repo ->
-            RepoItem(
-                repo = repo,
-                onClick = { onRepoClick(repo.id) }
-            )
+        LazyColumn {
+            items(repos) { repo ->
+                RepoItem(
+                    repo = repo,
+                    onClick = { onRepoClick(repo.id) }
+                )
+            }
         }
     }
 }

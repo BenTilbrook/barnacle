@@ -6,15 +6,15 @@ import com.squareup.moshi.ToJson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import org.threeten.bp.Instant
+import java.time.Instant
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
-class MoshiModule {
+@InstallIn(SingletonComponent::class)
+object MoshiModule {
     @Provides @Singleton
     fun moshi(): Moshi = Moshi.Builder()
         .add(HttpUrlJsonAdapter)

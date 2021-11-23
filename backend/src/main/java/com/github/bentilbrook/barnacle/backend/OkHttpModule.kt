@@ -3,15 +3,15 @@ package com.github.bentilbrook.barnacle.backend
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.ElementsIntoSet
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
-class OkHttpModule {
+@InstallIn(SingletonComponent::class)
+object OkHttpModule {
     @Provides @Singleton
     fun client(interceptors: @JvmSuppressWildcards Set<Interceptor>): OkHttpClient =
         OkHttpClient.Builder()

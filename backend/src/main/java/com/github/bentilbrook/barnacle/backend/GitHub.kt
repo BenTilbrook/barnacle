@@ -6,14 +6,14 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
-import org.threeten.bp.Instant
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import java.time.Instant
 import javax.inject.Singleton
 
 @JsonClass(generateAdapter = true)
@@ -124,8 +124,8 @@ interface Api {
 }
 
 @Module
-@InstallIn(ApplicationComponent::class)
-internal class GitHubModule {
+@InstallIn(SingletonComponent::class)
+internal object GitHubModule {
     @Provides @Singleton
     fun api(okHttpClient: OkHttpClient, moshi: Moshi): Api = Retrofit.Builder()
         .callFactory(okHttpClient)

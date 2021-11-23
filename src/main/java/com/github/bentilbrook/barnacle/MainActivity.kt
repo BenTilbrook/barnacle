@@ -1,13 +1,13 @@
 package com.github.bentilbrook.barnacle
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.ui.core.setContent
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     @Inject lateinit var app: App
 

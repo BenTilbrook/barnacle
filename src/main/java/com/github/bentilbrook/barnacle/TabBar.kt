@@ -1,21 +1,21 @@
 package com.github.bentilbrook.barnacle
 
-import androidx.compose.Composable
-import androidx.ui.foundation.Icon
-import androidx.ui.material.BottomNavigation
-import androidx.ui.material.BottomNavigationItem
-import androidx.ui.material.icons.Icons
-import androidx.ui.material.icons.filled.Home
-import androidx.ui.material.icons.filled.Settings
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.runtime.Composable
 
 @Composable
-fun TabBar(selectedTab: Tab, onSelected: (Tab) -> Unit) {
+fun TabBar(selectedTab: Tab, onTabClick: (Tab) -> Unit) {
     BottomNavigation {
         enumValues<Tab>().map { tab ->
             BottomNavigationItem(
-                icon = { Icon(tab.icon) },
+                icon = { Icon(tab.icon, contentDescription = null) },
                 selected = selectedTab == tab,
-                onSelected = { onSelected(tab) }
+                onClick = { onTabClick(tab) }
             )
         }
     }
