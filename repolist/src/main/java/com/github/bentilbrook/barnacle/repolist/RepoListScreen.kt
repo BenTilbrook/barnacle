@@ -1,6 +1,10 @@
 package com.github.bentilbrook.barnacle.repolist
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -10,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.github.bentilbrook.barnacle.backend.Repo
 import com.github.bentilbrook.barnacle.backend.User
 import kotlinx.coroutines.flow.Flow
@@ -25,35 +30,51 @@ fun RepoListScreen(repos: Flow<List<Repo>>) {
         content = {
             RepoList(
                 repos = repos.collectAsState(initial = null).value,
-                onRepoClick = { TODO() }
+                onRepoClick = {}
             )
         }
     )
 }
 
 @Composable
-private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) = when {
-    repos == null -> {
-        Text("Loading...")
-    }
-    repos.isEmpty() -> {
-        Text("No repos here")
-    }
-    else -> {
-        LazyColumn {
-            items(repos) { repo ->
-                RepoItem(
-                    repo = repo,
-                    onClick = { onRepoClick(repo.id) }
-                )
+private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) {
+    val contentPadding = 16.dp
+    return when {
+        repos == null -> {
+            Text("Loading...", modifier = Modifier.padding(contentPadding))
+        }
+        repos.isEmpty() -> {
+            Text("No repos here", modifier = Modifier.padding(contentPadding))
+        }
+        else -> {
+            LazyColumn(
+                contentPadding = PaddingValues(contentPadding),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                items(repos) { repo ->
+                    RepoItem(
+                        repo = repo,
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = { onRepoClick(repo.id) }
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun RepoItem(repo: Repo, onClick: () -> Unit) {
-    Text(text = repo.fullName, modifier = Modifier.clickable(onClick = onClick))
+private fun RepoItem(
+    repo: Repo,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    Text(
+        text = repo.fullName,
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(4.dp)
+    )
 }
 
 @Preview @Composable
@@ -88,7 +109,7 @@ internal data class RepoItem(
     val owner: String,
     val name: String,
     val text: String,
-    val imageUri: HttpUrl?
+    val imageUri: HttpUrl?,
 )
 
 private fun Repo.toItem() = RepoItem(
