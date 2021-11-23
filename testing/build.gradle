@@ -3,5 +3,5 @@ apply plugin: "com.android.library"
 project.configureBase(this)
 
 dependencies {
-    api deps.androidx.activity
+    api libs.bundles.test
 }

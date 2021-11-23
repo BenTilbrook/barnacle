@@ -5,6 +5,6 @@ project.configureHilt(this)
 project.configureCompose(this)
 
 dependencies {
-    api project(":backend")
-    api project(":core")
+    api projects.backend
+    api projects.core
 }

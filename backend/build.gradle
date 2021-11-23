@@ -4,10 +4,9 @@ project.configureBase(this)
 project.configureHilt(this)
 
 dependencies {
-    implementation "com.squareup.moshi:moshi:$versions.moshi"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
-    api "com.squareup.okhttp3:okhttp:$versions.okHttp"
-    api "com.squareup.retrofit2:retrofit:$versions.retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
-    api "com.jakewharton.threetenabp:threetenabp:1.1.2"
+    implementation libs.moshi
+    kapt libs.moshi.codegen
+    api libs.okhttp
+    implementation libs.retrofit
+    implementation libs.retrofit.moshi
 }

@@ -1,41 +1,26 @@
 buildscript {
-    apply from: "configuration.gradle"
-    repositories {
-        jcenter()
-        google()
-    }
     dependencies {
-        //noinspection GradleDependency
-        classpath "com.android.tools.build:gradle:$versions.agp"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:$versions.hilt"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$versions.detekt"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
     }
 }
 
-apply from: "configuration.gradle"
-
-allprojects {
-    repositories {
-        jcenter()
-        google()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    }
-    group = GROUP
-    version = VERSION_NAME
+plugins {
+    id "com.android.application" version libs.versions.agp apply true
+    id "com.android.library" version libs.versions.agp apply false
 }
 
 ext.configureBase = { project ->
     delegate = project
-
-    apply plugin: "kotlin-android"
-    apply plugin: "kotlin-android-extensions"
+    apply plugin: "org.jetbrains.kotlin.android"
     apply plugin: "kotlin-kapt"
-
+    group = GROUP
+    version = VERSION_NAME
     android {
-        compileSdkVersion buildConfig.compileSdk
+        compileSdkVersion 31
         defaultConfig {
-            minSdkVersion buildConfig.minSdk
+            minSdkVersion 24
+            targetSdkVersion 31
         }
         compileOptions {
             sourceCompatibility 1.8
@@ -44,7 +29,6 @@ ext.configureBase = { project ->
         kotlinOptions {
             jvmTarget = "1.8"
             freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-            freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
         }
         lintOptions {
             lintConfig rootProject.file("lint.xml")
@@ -56,41 +40,28 @@ ext.configureBase = { project ->
             }
         }
     }
-
     dependencies {
-        api deps.kotlin.stdlib
-        api deps.kotlin.coroutines.core
+        api libs.bundles.kotlin
     }
-    // apply plugin: "com.github.dcendents.android-maven"
-    // apply from: rootProject.file("gradle/gradle-mvn-push.gradle")
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 ext.configureHilt = { project ->
     delegate = project
+    apply plugin: "dagger.hilt.android.plugin"
     dependencies {
-        implementation "com.google.dagger:dagger:$versions.dagger"
-
-        implementation "com.google.dagger:hilt-android:$versions.hilt"
-        kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
-        androidTestImplementation "com.google.dagger:hilt-android-testing:$versions.hilt"
-        kaptAndroidTest "com.google.dagger:hilt-android-compiler:$versions.hilt"
-        testImplementation "com.google.dagger:hilt-android-testing:$versions.hilt"
-        kaptTest "com.google.dagger:hilt-android-compiler:$versions.hilt"
-
-        compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$versions.assistedInject"
-        kapt "com.squareup.inject:assisted-inject-processor-dagger2:$versions.assistedInject"
-        kaptTest "com.squareup.inject:assisted-inject-processor-dagger2:$versions.assistedInject"
-        kaptAndroidTest "com.squareup.inject:assisted-inject-processor-dagger2:$versions.assistedInject"
+        implementation libs.hilt.android
+        kapt libs.hilt.android.compiler
+        testImplementation libs.hilt.android.testing
+        kaptTest libs.hilt.android.compiler
     }
     kapt {
-        correctErrorTypes = true
         arguments {
             arg("dagger.hilt.disableModulesHaveInstallInCheck", "true")
         }
     }
-//    hilt {
-//        enableTransformForLocalTests = true
-//    }
 }
 
 ext.configureCompose = { project ->
@@ -100,21 +71,13 @@ ext.configureCompose = { project ->
             compose true
         }
         composeOptions {
-            kotlinCompilerExtensionVersion versions.compose
+            kotlinCompilerExtensionVersion "1.0.5"
         }
     }
     dependencies {
-        implementation "androidx.ui:ui-core:$versions.compose"
-        implementation "androidx.ui:ui-tooling:$versions.compose"
-        implementation "androidx.ui:ui-layout:$versions.compose"
-        implementation "androidx.ui:ui-material:$versions.compose"
+        implementation libs.bundles.compose
     }
 }
-
-apply plugin: "com.android.application"
-apply plugin: "dagger.hilt.android.plugin"
-
-apply from: "configuration.gradle"
 
 project.configureBase(this)
 project.configureHilt(this)
@@ -123,9 +86,7 @@ project.configureCompose(this)
 android {
     defaultConfig {
         applicationId "com.github.bentilbrook.barnacle"
-        minSdkVersion buildConfig.minSdk
-        targetSdkVersion buildConfig.targetSdk
-        versionName "1.0.0"
+        versionName "0.0.1"
         versionCode 1
         vectorDrawables.useSupportLibrary = true
         proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -139,35 +100,10 @@ android {
 }
 
 dependencies {
-    implementation project(":core")
-    implementation project(":repolist")
-
-    // Moshi
-    implementation "com.squareup.moshi:moshi:$versions.moshi"
-
-    // AndroidX
-    implementation deps.androidx.activity
-    implementation deps.androidx.fragment
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.constraintlayout
-    implementation deps.androidx.recyclerview
-    implementation deps.androidx.vectordrawable
-    implementation deps.androidx.transition
-
-    // Google Material Components
-    implementation deps.google.material
-
-    // Leak Canary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.3"
-
-    // Testing
-    implementation project(":testing")
-    testImplementation deps.junit
-    testImplementation deps.robolectric
-    testImplementation deps.kluent
-    testImplementation deps.kotlin.coroutines.test
-    testImplementation deps.androidx.test.core
-    testImplementation deps.androidx.test.runner
-    testImplementation deps.androidx.test.rules
-    testImplementation deps.androidx.test.ext.junit
+    implementation projects.core
+    implementation projects.repolist
+    implementation libs.moshi
+    implementation libs.bundles.androidx.core
+    implementation libs.bundles.compose
+    testImplementation projects.testing
 }
