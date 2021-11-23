@@ -28,7 +28,10 @@ ext.configureBase = { project ->
         }
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            freeCompilerArgs += [
+                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xopt-in=kotlinx.coroutines.FlowPreview",
+            ]
         }
         lintOptions {
             lintConfig rootProject.file("lint.xml")
@@ -102,8 +105,9 @@ android {
 dependencies {
     implementation projects.core
     implementation projects.repolist
+    implementation libs.google.material
     implementation libs.moshi
-    implementation libs.bundles.androidx.core
+    implementation libs.bundles.core
     implementation libs.bundles.compose
     testImplementation projects.testing
 }

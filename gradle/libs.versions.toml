@@ -44,6 +44,7 @@ androidx-compose-material-icons-extended = { module = "androidx.compose.material
 androidx-compose-activity = { module = "androidx.activity:activity-compose", version = "1.4.0" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-compose-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "1.0.0-alpha07" }
+google-material = { module = "com.google.android.material:material", version = "1.4.0" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.7.2" }
 junit = { module = "junit:junit", version = "4.13.2" }
 
@@ -57,7 +58,7 @@ kotlin = [
 kotlin-test = [
     "kotlinx-coroutines-test",
 ]
-androidx-core = [
+core = [
     "androidx-core",
     "androidx-annotation",
     "androidx-activity",
@@ -73,7 +74,6 @@ compose = [
     "androidx-compose-material-icons-core",
     "androidx-compose-material-icons-extended",
     "androidx-compose-activity",
-    "androidx-compose-ui-test-junit4",
     "androidx-compose-lifecycle-viewmodel-compose",
 ]
 test = [
@@ -82,6 +82,7 @@ test = [
     "androidx-test-rules",
     "androidx-test-ext-junit",
     "robolectric",
+    "androidx-compose-ui-test-junit4",
 ]
 
 [plugins]

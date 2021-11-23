@@ -3,5 +3,6 @@ apply plugin: "com.android.library"
 project.configureBase(this)
 
 dependencies {
+    api libs.bundles.core
     api libs.bundles.test
 }
