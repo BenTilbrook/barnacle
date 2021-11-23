@@ -15,14 +15,17 @@ import javax.inject.Inject
 class App @Inject constructor(private val api: Api) {
     @Composable
     operator fun invoke() {
-        var selectedTab by remember { mutableStateOf(Tab.BROWSE) }
-        Scaffold(
-            content = {
-                RepoListScreen(api::search.asFlow().map { it.repos })
-            },
-            bottomBar = {
-                TabBar(selectedTab) { selectedTab = it }
-            }
-        )
+        Theme {
+            var selectedTab by remember { mutableStateOf(Tab.BROWSE) }
+            Scaffold(
+                content = {
+                    RepoListScreen(api::search.asFlow().map { it.repos })
+                },
+                bottomBar = {
+                    TabBar(selectedTab) { selectedTab = it }
+                }
+            )
+        }
+
     }
 }
