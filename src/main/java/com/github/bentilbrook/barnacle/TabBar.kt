@@ -3,28 +3,33 @@ package com.github.bentilbrook.barnacle
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.github.bentilbrook.barnacle.core.Screen
 
 @Composable
-fun TabBar(selectedTab: Tab, onTabClick: (Tab) -> Unit) {
+fun TabBar(navController: NavHostController, screens: List<Screen>) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry?.destination
     BottomNavigation {
-        enumValues<Tab>().map { tab ->
+        screens.forEach { screen ->
             BottomNavigationItem(
-                icon = { Icon(tab.icon, contentDescription = null) },
-                selected = selectedTab == tab,
-                onClick = { onTabClick(tab) }
+                icon = { Icon(screen.icon, contentDescription = screen.name) },
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
 }
-
-enum class Tab { BROWSE, SETTINGS }
-
-private val Tab.icon
-    get() = when (this) {
-        Tab.BROWSE -> Icons.Filled.Home
-        Tab.SETTINGS -> Icons.Filled.Settings
-    }

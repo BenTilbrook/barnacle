@@ -10,26 +10,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.bentilbrook.barnacle.backend.Repo
-import com.github.bentilbrook.barnacle.backend.User
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import com.github.bentilbrook.barnacle.core.Screen
 import okhttp3.HttpUrl
 
+object RepoListScreen : Screen(route = "repolist", name = "Repo List", icon = Icons.Filled.Home)
+
 @Composable
-fun RepoListScreen(repos: Flow<List<Repo>>) {
+fun RepoList() {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Repos") })
         },
         content = {
             RepoList(
-                repos = repos.collectAsState(initial = null).value,
+                repos = repos,
                 onRepoClick = {}
             )
         }
@@ -79,29 +80,7 @@ private fun RepoItem(
 
 @Preview @Composable
 private fun PreviewRepoListScreen() {
-    RepoListScreen(
-        repos = flowOf(
-            (0..100).map {
-                Repo(
-                    id = "1",
-                    name = "Repo 1",
-                    fullName = "Full Repo 1",
-                    description = "This is a repo",
-                    starCount = 1,
-                    owner = User(
-                        id = "1",
-                        login = "user1",
-                        name = "User",
-                        location = "Location",
-                        bio = "Bio",
-                        followerCount = 1,
-                        followingCount = 2,
-                        imageUri = null
-                    )
-                )
-            }
-        )
-    )
+    RepoList(repos = repos, onRepoClick = {})
 }
 
 internal data class RepoItem(

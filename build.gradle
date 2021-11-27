@@ -31,6 +31,7 @@ ext.configureBase = { project ->
             freeCompilerArgs += [
                 "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
             ]
         }
         lintOptions {

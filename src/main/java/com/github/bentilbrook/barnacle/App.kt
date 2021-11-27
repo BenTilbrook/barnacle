@@ -1,31 +1,80 @@
 package com.github.bentilbrook.barnacle
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.github.bentilbrook.barnacle.backend.Api
+import com.github.bentilbrook.barnacle.repolist.RepoList
 import com.github.bentilbrook.barnacle.repolist.RepoListScreen
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import com.github.bentilbrook.barnacle.settings.Settings
+import com.github.bentilbrook.barnacle.settings.SettingsScreen
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
-class App @Inject constructor(private val api: Api) {
-    @Composable
-    operator fun invoke() {
-        Theme {
-            var selectedTab by remember { mutableStateOf(Tab.BROWSE) }
-            Scaffold(
-                content = {
-                    RepoListScreen(api::search.asFlow().map { it.repos })
-                },
-                bottomBar = {
-                    TabBar(selectedTab) { selectedTab = it }
+@Composable
+fun App() {
+    Theme {
+        val navController = rememberAnimatedNavController()
+        Scaffold(
+            content = {
+                AnimatedNavHost(
+                    navController = navController,
+                    startDestination = "repolist",
+                ) {
+                    composable(
+                        route = RepoListScreen.route,
+                        enterTransition = {
+                            slideInHorizontally(initialOffsetX = { 1000 },
+                                animationSpec = tween(700))
+                        },
+                        exitTransition = {
+                            slideOutHorizontally(targetOffsetX = { -1000 },
+                                animationSpec = tween(700))
+                        },
+                        popEnterTransition = {
+                            slideInHorizontally(initialOffsetX = { -1000 },
+                                animationSpec = tween(700))
+                        },
+                        popExitTransition = {
+                            slideOutHorizontally(targetOffsetX = { 1000 },
+                                animationSpec = tween(700))
+                        }
+                    ) {
+                        RepoList()
+                    }
+                    composable(
+                        route = SettingsScreen.route,
+                        enterTransition = {
+                            slideInHorizontally(initialOffsetX = { 1000 },
+                                animationSpec = tween(700))
+                        },
+                        exitTransition = {
+                            slideOutHorizontally(targetOffsetX = { -1000 },
+                                animationSpec = tween(700))
+                        },
+                        popEnterTransition = {
+                            slideInHorizontally(initialOffsetX = { -1000 },
+                                animationSpec = tween(700))
+                        },
+                        popExitTransition = {
+                            slideOutHorizontally(targetOffsetX = { 1000 },
+                                animationSpec = tween(700))
+                        }
+                    ) {
+                        Settings()
+                    }
                 }
-            )
-        }
-
+            },
+            bottomBar = {
+                TabBar(navController, screens)
+            }
+        )
     }
 }
+
+private val screens = listOf(
+    RepoListScreen,
+    SettingsScreen,
+)

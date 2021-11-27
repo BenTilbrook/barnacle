@@ -1,5 +1,5 @@
 [versions]
-agp = "7.1.0-beta03"
+agp = "7.1.0-beta04"
 kotlin = "1.5.31"
 kotlin-coroutines = "1.5.2"
 compose = "1.0.5"
@@ -9,6 +9,8 @@ okhttp = "4.9.2"
 retrofit = "2.9.0"
 timber = "5.0.1"
 detekt = "1.18.1"
+nav = "2.4.0-beta02"
+accompanist = "0.21.3-beta"
 test = "1.4.0"
 
 [libraries]
@@ -44,6 +46,9 @@ androidx-compose-material-icons-extended = { module = "androidx.compose.material
 androidx-compose-activity = { module = "androidx.activity:activity-compose", version = "1.4.0" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-compose-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "1.0.0-alpha07" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "nav" }
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
+accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 google-material = { module = "com.google.android.material:material", version = "1.4.0" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.7.2" }
 junit = { module = "junit:junit", version = "4.13.2" }
@@ -75,6 +80,9 @@ compose = [
     "androidx-compose-material-icons-extended",
     "androidx-compose-activity",
     "androidx-compose-lifecycle-viewmodel-compose",
+    "androidx-navigation-compose",
+    "accompanist-navigation-animation",
+    "accompanist-swiperefresh"
 ]
 test = [
     "androidx-test-core",
