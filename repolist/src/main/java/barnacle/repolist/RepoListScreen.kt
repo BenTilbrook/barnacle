@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.repolist
+package barnacle.repolist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.bentilbrook.barnacle.backend.Repo
-import com.github.bentilbrook.barnacle.core.Screen
+import barnacle.backend.Repo
+import barnacle.core.Screen
 import okhttp3.HttpUrl
 
 object RepoListScreen : Screen(route = "repolist", name = "Repo List", icon = Icons.Filled.Home)

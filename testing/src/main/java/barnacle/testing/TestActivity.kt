@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.testing
+package barnacle.testing
 
 import androidx.activity.ComponentActivity
 

@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package barnacle
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

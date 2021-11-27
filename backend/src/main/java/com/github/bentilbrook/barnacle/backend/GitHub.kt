@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.backend
+package barnacle.backend
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

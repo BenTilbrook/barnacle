@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package barnacle
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

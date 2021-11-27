@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package barnacle
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -9,7 +9,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.github.bentilbrook.barnacle.core.Screen
+import barnacle.core.Screen
 
 @Composable
 fun TabBar(navController: NavHostController, screens: List<Screen>) {

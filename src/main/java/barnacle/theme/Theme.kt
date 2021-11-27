@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package barnacle.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

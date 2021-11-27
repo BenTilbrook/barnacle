@@ -1,7 +1,7 @@
-package com.github.bentilbrook.barnacle.repolist
+package barnacle.repolist
 
-import com.github.bentilbrook.barnacle.backend.Repo
-import com.github.bentilbrook.barnacle.backend.User
+import barnacle.backend.Repo
+import barnacle.backend.User
 
 val repos = List(100) {
     Repo(

@@ -1,14 +1,15 @@
-package com.github.bentilbrook.barnacle
+package barnacle
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import com.github.bentilbrook.barnacle.repolist.RepoList
-import com.github.bentilbrook.barnacle.repolist.RepoListScreen
-import com.github.bentilbrook.barnacle.settings.Settings
-import com.github.bentilbrook.barnacle.settings.SettingsScreen
+import barnacle.repolist.RepoList
+import barnacle.repolist.RepoListScreen
+import barnacle.settings.Settings
+import barnacle.settings.SettingsScreen
+import barnacle.theme.Theme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

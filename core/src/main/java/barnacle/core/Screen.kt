@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle.core
+package barnacle.core
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

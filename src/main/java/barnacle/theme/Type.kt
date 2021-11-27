@@ -1,4 +1,4 @@
-package com.github.bentilbrook.barnacle
+package barnacle.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
