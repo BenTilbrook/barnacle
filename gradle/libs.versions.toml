@@ -2,7 +2,7 @@
 agp = "7.1.0-beta04"
 kotlin = "1.5.31"
 kotlin-coroutines = "1.5.2"
-compose = "1.0.5"
+compose = "1.1.0-beta04"
 moshi = "1.12.0"
 hilt = "2.40.1"
 okhttp = "4.9.2"
@@ -10,7 +10,7 @@ retrofit = "2.9.0"
 timber = "5.0.1"
 detekt = "1.18.1"
 nav = "2.4.0-beta02"
-accompanist = "0.21.3-beta"
+accompanist = "0.21.4-beta"
 test = "1.4.0"
 
 [libraries]
