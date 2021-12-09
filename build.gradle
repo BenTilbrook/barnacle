@@ -2,6 +2,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
+        classpath "app.cash.molecule:molecule-gradle-plugin:0.1.0"
     }
 }
 
@@ -70,6 +71,7 @@ ext.configureHilt = { project ->
 
 ext.configureCompose = { project ->
     delegate = project
+    apply plugin: "app.cash.molecule"
     android {
         buildFeatures {
             compose true
