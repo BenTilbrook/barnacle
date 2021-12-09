@@ -1,17 +1,13 @@
 package barnacle
 
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import barnacle.repolist.RepoList
-import barnacle.repolist.RepoListScreen
-import barnacle.settings.Settings
-import barnacle.settings.SettingsScreen
+import barnacle.repolist.ReposTab
+import barnacle.repolist.reposGraph
+import barnacle.settings.SettingsTab
+import barnacle.settings.settingsGraph
 import barnacle.theme.Theme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @Composable
@@ -20,62 +16,16 @@ fun App() {
         val navController = rememberAnimatedNavController()
         Scaffold(
             content = {
-                AnimatedNavHost(
-                    navController = navController,
-                    startDestination = "repolist",
-                ) {
-                    composable(
-                        route = RepoListScreen.route,
-                        enterTransition = {
-                            slideInHorizontally(initialOffsetX = { 1000 },
-                                animationSpec = tween(700))
-                        },
-                        exitTransition = {
-                            slideOutHorizontally(targetOffsetX = { -1000 },
-                                animationSpec = tween(700))
-                        },
-                        popEnterTransition = {
-                            slideInHorizontally(initialOffsetX = { -1000 },
-                                animationSpec = tween(700))
-                        },
-                        popExitTransition = {
-                            slideOutHorizontally(targetOffsetX = { 1000 },
-                                animationSpec = tween(700))
-                        }
-                    ) {
-                        RepoList()
-                    }
-                    composable(
-                        route = SettingsScreen.route,
-                        enterTransition = {
-                            slideInHorizontally(initialOffsetX = { 1000 },
-                                animationSpec = tween(700))
-                        },
-                        exitTransition = {
-                            slideOutHorizontally(targetOffsetX = { -1000 },
-                                animationSpec = tween(700))
-                        },
-                        popEnterTransition = {
-                            slideInHorizontally(initialOffsetX = { -1000 },
-                                animationSpec = tween(700))
-                        },
-                        popExitTransition = {
-                            slideOutHorizontally(targetOffsetX = { 1000 },
-                                animationSpec = tween(700))
-                        }
-                    ) {
-                        Settings()
-                    }
+                AnimatedNavHost(navController = navController, startDestination = ReposTab.route) {
+                    reposGraph(navController)
+                    settingsGraph(navController)
                 }
             },
             bottomBar = {
-                TabBar(navController, screens)
+                TabBar(navController, tabs)
             }
         )
     }
 }
 
-private val screens = listOf(
-    RepoListScreen,
-    SettingsScreen,
-)
+private val tabs = listOf(ReposTab, SettingsTab)

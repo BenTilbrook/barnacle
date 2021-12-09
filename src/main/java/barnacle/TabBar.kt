@@ -9,19 +9,19 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import barnacle.core.Screen
+import barnacle.core.Tab
 
 @Composable
-fun TabBar(navController: NavHostController, screens: List<Screen>) {
+fun TabBar(navController: NavHostController, tabs: List<Tab>) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     BottomNavigation {
-        screens.forEach { screen ->
+        tabs.forEach { tab ->
             BottomNavigationItem(
-                icon = { Icon(screen.icon, contentDescription = screen.name) },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                icon = { Icon(tab.icon, contentDescription = tab.name) },
+                selected = currentDestination?.hierarchy?.any { it.route == tab.route } == true,
                 onClick = {
-                    navController.navigate(screen.route) {
+                    navController.navigate(tab.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }

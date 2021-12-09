@@ -1,1 +1,0 @@
-package barnacle.repodetail
