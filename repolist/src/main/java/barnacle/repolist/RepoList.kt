@@ -69,7 +69,7 @@ fun NavGraphBuilder.reposGraph(navController: NavController) {
                     targetOffsetX = HalfWidthOffsetPositive,
                     animationSpec = AnimationSpec,
                 )
-            }
+            },
         ) {
             RepoList(onRepoClick = { id -> navController.navigate(RepoDetailScreen(id)) })
         }
@@ -99,7 +99,7 @@ fun NavGraphBuilder.reposGraph(navController: NavController) {
                     targetOffsetX = HalfWidthOffsetPositive,
                     animationSpec = AnimationSpec,
                 )
-            }
+            },
         ) {
             RepoDetail(id = it.arguments!!.getString("id")!!)
         }
@@ -126,7 +126,7 @@ private fun RepoList(onRepoClick: (id: String) -> Unit) {
                 repos = repos,
                 onRepoClick = onRepoClick,
             )
-        }
+        },
     )
 }
 
@@ -134,10 +134,14 @@ private fun RepoList(onRepoClick: (id: String) -> Unit) {
 private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) {
     val contentPadding = 16.dp
     when {
-        repos == null -> Text("Loading...",
-            modifier = Modifier.padding(contentPadding))
-        repos.isEmpty() -> Text("No repos here",
-            modifier = Modifier.padding(contentPadding))
+        repos == null -> Text(
+            "Loading...",
+            modifier = Modifier.padding(contentPadding),
+        )
+        repos.isEmpty() -> Text(
+            "No repos here",
+            modifier = Modifier.padding(contentPadding),
+        )
         else -> LazyColumn(
             contentPadding = PaddingValues(contentPadding),
             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -146,7 +150,7 @@ private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) {
                 RepoItem(
                     repo = repo,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { onRepoClick(repo.id) }
+                    onClick = { onRepoClick(repo.id) },
                 )
             }
         }
@@ -163,14 +167,16 @@ private fun RepoItem(
         text = repo.fullName,
         modifier = modifier
             .clickable(onClick = onClick)
-            .padding(4.dp)
+            .padding(4.dp),
     )
 }
 
 @Preview @Composable
 private fun PreviewRepoListScreen() {
-    RepoList(repos = repos,
-        onRepoClick = {})
+    RepoList(
+        repos = repos,
+        onRepoClick = {},
+    )
 }
 
 private data class RepoItem(
@@ -186,5 +192,5 @@ private fun Repo.toItem() = RepoItem(
     owner = owner.login,
     name = name,
     text = fullName,
-    imageUri = owner.imageUri
+    imageUri = owner.imageUri,
 )

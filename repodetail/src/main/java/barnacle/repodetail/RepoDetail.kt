@@ -19,7 +19,7 @@ fun RepoDetail(id: String) {
         },
         content = {
             Text(text = "Repo $id")
-        }
+        },
     )
 }
 

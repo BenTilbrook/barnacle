@@ -28,7 +28,7 @@ fun TabBar(navController: NavHostController, tabs: List<Tab>) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

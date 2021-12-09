@@ -34,7 +34,7 @@ data class Repo(
     val starCount: Int,
 
     @Json(name = "owner")
-    val owner: User
+    val owner: User,
 )
 
 @JsonClass(generateAdapter = true)
@@ -61,7 +61,7 @@ data class User(
     val followingCount: Int = 0,
 
     @Json(name = "avatar_url")
-    val imageUri: HttpUrl? = null
+    val imageUri: HttpUrl? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -73,7 +73,7 @@ data class Commit(
     val info: Info,
 
     @Json(name = "author")
-    val author: User
+    val author: User,
 ) {
     @JsonClass(generateAdapter = true)
     data class Info(
@@ -81,7 +81,7 @@ data class Commit(
         val message: String?,
 
         @Json(name = "comment_count")
-        val commentCount: Int = 0
+        val commentCount: Int = 0,
     )
 
     val message get() = info.message
@@ -90,13 +90,13 @@ data class Commit(
 @JsonClass(generateAdapter = true)
 data class Event(
     @Json(name = "created_at")
-    val createdAt: Instant
+    val createdAt: Instant,
 )
 
 @JsonClass(generateAdapter = true)
 data class SearchResult(
     @Json(name = "items")
-    val repos: List<Repo>
+    val repos: List<Repo>,
 )
 
 interface Api {
@@ -110,7 +110,7 @@ interface Api {
     suspend fun commit(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Path("sha") sha: String
+        @Path("sha") sha: String,
     ): Commit
 
     @GET("users/{username}")

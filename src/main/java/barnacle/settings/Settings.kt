@@ -33,6 +33,6 @@ private fun AllSettings() {
         },
         content = {
             Text(text = "Settings")
-        }
+        },
     )
 }

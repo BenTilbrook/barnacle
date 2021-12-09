@@ -18,7 +18,7 @@ val repos = List(100) {
             bio = "Bio #it",
             followerCount = 1,
             followingCount = 2,
-            imageUri = null
-        )
+            imageUri = null,
+        ),
     )
 }

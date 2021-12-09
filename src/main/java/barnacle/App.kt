@@ -23,7 +23,7 @@ fun App() {
             },
             bottomBar = {
                 TabBar(navController, tabs)
-            }
+            },
         )
     }
 }
