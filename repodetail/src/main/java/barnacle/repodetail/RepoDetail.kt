@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import barnacle.core.Screen
 
 object RepoDetailScreen : Screen(route = "repo/{id}", name = "Repo Detail") {
-    operator fun invoke(id: String) = "repo/$id"
+    fun route(id: String) = "repo/$id"
 }
 
 @Composable

@@ -16,6 +16,10 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -25,12 +29,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import app.cash.molecule.AndroidUiDispatcher
+import app.cash.molecule.launchMolecule
 import barnacle.backend.Repo
 import barnacle.core.Screen
 import barnacle.core.Tab
 import barnacle.repodetail.RepoDetail
 import barnacle.repodetail.RepoDetailScreen
 import com.google.accompanist.navigation.animation.composable
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.HttpUrl
 
 object ReposTab : Tab(
@@ -71,7 +80,7 @@ fun NavGraphBuilder.reposGraph(navController: NavController) {
                 )
             },
         ) {
-            RepoList(onRepoClick = { id -> navController.navigate(RepoDetailScreen(id)) })
+            RepoListScreen(navController)
         }
         composable(
             route = RepoDetailScreen.route,
@@ -107,7 +116,7 @@ fun NavGraphBuilder.reposGraph(navController: NavController) {
 }
 
 private val AnimationSpec = tween<IntOffset>(1000)
-private val HalfWidthOffsetPositive: (fullWidth: Int) -> Int = { fullWidth -> fullWidth / 1 }
+private val HalfWidthOffsetPositive: (fullWidth: Int) -> Int = { fullWidth -> +fullWidth / 1 }
 private val HalfWidthOffsetNegative: (fullWidth: Int) -> Int = { fullWidth -> -fullWidth / 1 }
 
 private object RepoListScreen : Screen(
@@ -116,45 +125,57 @@ private object RepoListScreen : Screen(
 )
 
 @Composable
-private fun RepoList(onRepoClick: (id: String) -> Unit) {
+private fun RepoListScreen(navController: NavController) {
+    val scope = rememberCoroutineScope { AndroidUiDispatcher.Main }
+    val presenter: RepoListPresenter = null // TODO: Inject presenter
+    val actions = remember { MutableSharedFlow<RepoListAction>() }
+    val state = remember { scope.launchMolecule { presenter(actions) } }
+    RepoList(
+        state = state,
+        onRefresh = { actions.tryEmit(RepoListAction.Refresh) },
+        onRepoClick = { id -> navController.navigate(RepoDetailScreen.route(id)) },
+    )
+}
+
+@Composable
+private fun RepoList(
+    state: StateFlow<RepoListState>,
+    onRefresh: () -> Unit,
+    onRepoClick: (id: String) -> Unit,
+) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Repos") })
         },
         content = {
-            RepoList(
-                repos = repos,
-                onRepoClick = onRepoClick,
-            )
+            // TODO: Swipe refresh
+            val contentPadding = 16.dp
+            val state by state.collectAsState()
+            val repos = state.repos
+            when {
+                repos == null -> Text(
+                    "Loading...",
+                    modifier = Modifier.padding(contentPadding),
+                )
+                repos.isEmpty() -> Text(
+                    "No repos here",
+                    modifier = Modifier.padding(contentPadding),
+                )
+                else -> LazyColumn(
+                    contentPadding = PaddingValues(contentPadding),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    items(repos) { repo ->
+                        RepoItem(
+                            repo = repo,
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onRepoClick(repo.id) },
+                        )
+                    }
+                }
+            }
         },
     )
-}
-
-@Composable
-private fun RepoList(repos: List<Repo>?, onRepoClick: (String) -> Unit) {
-    val contentPadding = 16.dp
-    when {
-        repos == null -> Text(
-            "Loading...",
-            modifier = Modifier.padding(contentPadding),
-        )
-        repos.isEmpty() -> Text(
-            "No repos here",
-            modifier = Modifier.padding(contentPadding),
-        )
-        else -> LazyColumn(
-            contentPadding = PaddingValues(contentPadding),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            items(repos) { repo ->
-                RepoItem(
-                    repo = repo,
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { onRepoClick(repo.id) },
-                )
-            }
-        }
-    }
 }
 
 @Composable
@@ -174,7 +195,8 @@ private fun RepoItem(
 @Preview @Composable
 private fun PreviewRepoListScreen() {
     RepoList(
-        repos = repos,
+        state = MutableStateFlow(RepoListState(repos = repos, isLoading = false)),
+        onRefresh = {},
         onRepoClick = {},
     )
 }
